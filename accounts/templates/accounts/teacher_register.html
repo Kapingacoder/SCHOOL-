@@ -1,0 +1,396 @@
+{% extends 'base/base.html' %}
+{% block title %}Teacher Registration{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Registration - Tanzania</title>
+    <style>
+        /* Main Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6f8;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Container Styles */
+        .registration-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 25px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .registration-container::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 80px;
+            height: 80px;
+            background: url('https://upload.wikimedia.org/wikipedia/commons/7/7a/Coat_of_arms_of_Tanzania.svg') no-repeat;
+            background-size: contain;
+            opacity: 0.12;
+            z-index: 0;
+        }
+
+        /* Header Styles */
+        .registration-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .registration-header h2 {
+            color: #046b38; /* Tanzania green */
+            font-size: 26px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .registration-header p {
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* Form Styles */
+        .registration-form {
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 500;
+            color: #2c3e50;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 5px;
+            font-size: 15px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: #046b38;
+            outline: none;
+            box-shadow: 0 0 5px rgba(4, 107, 56, 0.3);
+        }
+
+        /* Form Layout */
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 18px;
+        }
+
+        .form-col {
+            flex: 1;
+        }
+
+        /* Button Styles */
+        .btn-register {
+            background: #046b38;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 500;
+            width: 100%;
+            text-transform: uppercase;
+            transition: background 0.3s, transform 0.2s;
+        }
+
+        .btn-register:hover {
+            background: #035a2f;
+            transform: translateY(-1px);
+        }
+
+        /* Error and Help Text */
+        .errorlist {
+            color: #d32f2f;
+            margin-top: 5px;
+            list-style: none;
+            padding: 0;
+            font-size: 13px;
+        }
+
+        .helptext {
+            font-size: 12px;
+            color: #777;
+            margin-top: 5px;
+            display: block;
+        }
+
+        /* Footer Styles */
+        .registration-footer {
+            text-align: center;
+            margin-top: 25px;
+            color: #888;
+            font-size: 13px;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            .registration-container {
+                margin: 20px;
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <div class="registration-header">
+            <h2>Teacher Registration</h2>
+            <p>Register to access the Tanzania Teachers Portal</p>
+        </div>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="post" class="registration-form" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Personal Information Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username }}
+                        {% if form.username.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.username.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <span class="helptext">150 characters or fewer. Letters, digits and @/./+/-/_ only.</span>
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.email.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Name Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.first_name.id_for_label }}">First Name</label>
+                        {{ form.first_name }}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.last_name.id_for_label }}">Last Name</label>
+                        {{ form.last_name }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Information Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.tsc_number.id_for_label }}">TSC Number</label>
+                        {{ form.tsc_number }}
+                        {% if form.tsc_number.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.tsc_number.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.gender.id_for_label }}">Gender</label>
+                        {{ form.gender }}
+                        {% if form.gender.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.gender.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Personal Details Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.date_of_birth.id_for_label }}">Date of Birth</label>
+                        {{ form.date_of_birth }}
+                        {% if form.date_of_birth.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.date_of_birth.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.phone_number.id_for_label }}">Phone Number</label>
+                        {{ form.phone_number }}
+                        {% if form.phone_number.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.phone_number.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <span class="helptext">Format: +255xxxxxxxxx</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Password Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.password1.id_for_label }}">Password</label>
+                        {{ form.password1 }}
+                        {% if form.password1.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.password1.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.password2.id_for_label }}">Confirm Password</label>
+                        {{ form.password2 }}
+                        {% if form.password2.errors %}
+                            <ul class="errorlist">
+                                {% for error in form.password2.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Professional Details -->
+            <div class="form-group">
+                <label for="{{ form.qualification.id_for_label }}">Highest Qualification</label>
+                {{ form.qualification }}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.subjects_taught.id_for_label }}">Subjects Taught</label>
+                {{ form.subjects_taught }}
+                <span class="helptext">List subjects separated by commas (e.g., Mathematics, Physics, Chemistry)</span>
+            </div>
+
+            <!-- School Information Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.current_school.id_for_label }}">Current School</label>
+                        {{ form.current_school }}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.district.id_for_label }}">District</label>
+                        {{ form.district }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location and Profile Picture Row -->
+            <div class="form-row">
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.region.id_for_label }}">Region</label>
+                        {{ form.region }}
+                    </div>
+                </div>
+                <div class="form-col">
+                    <div class="form-group">
+                        <label for="{{ form.profile_picture.id_for_label }}">Profile Picture (Optional)</label>
+                        {{ form.profile_picture }}
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-register">Register as Teacher</button>
+        </form>
+
+        <div class="registration-footer">
+            <p>Tanzania Ministry of Education © {% now "Y" %}</p>
+        </div>
+    </div>
+
+    <script>
+        // Client-side password validation
+        document.querySelector('.registration-form').addEventListener('submit', function(event) {
+            const password = document.getElementById('id_password1').value;
+            const confirmPassword = document.getElementById('id_password2').value;
+            
+            if (password !== confirmPassword) {
+                event.preventDefault();
+                alert('Passwords do not match. Please correct and try again.');
+            }
+        });
+
+        // Enhance date input fields
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInputs = document.querySelectorAll('input[type="date"]');
+            dateInputs.forEach(input => {
+                if (!input.value) {
+                    input.setAttribute('placeholder', 'YYYY-MM-DD');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+{% endblock %}

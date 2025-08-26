@@ -1,0 +1,1020 @@
+<!-- base/templates/base/home.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>School Management System</title>
+    <style>
+        /* ===== SOCIAL MEDIA ICONS ===== */
+        .social-media {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .social-icon {
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px) scale(1.1);
+        }
+
+        .instagram:hover {
+            background-color: #E1306C;
+            color: white;
+        }
+
+        .facebook:hover {
+            background-color: #3b5998;
+            color: white;
+        }
+
+        .twitter:hover {
+            background-color: #1DA1F2;
+            color: white;
+        }
+
+        .tiktok:hover {
+            background-color: #FE2C55;
+            color: white;
+        }
+
+        /* ===== BASE STYLES ===== */
+        :root {
+            --primary: #3498db;
+            --secondary: #2ecc71;
+            --danger: #e74c3c;
+            --dark: #2c3e50;
+            --light: #ecf0f1;
+            --admin: #9b59b6;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            color: #333;
+            line-height: 1.6;
+            position: relative;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* ===== COLOR CHANGING BACKGROUND ===== */
+        .color-changing-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background-color: #3498db; /* Blue as default */
+            animation: colorChange 6s infinite;
+        }
+
+        @keyframes colorChange {
+            0% { background-color: #3498db; } /* Blue */
+            16.6% { background-color: #2ecc71; } /* Green */
+            33.3% { background-color: #e74c3c; } /* Red */
+            50% { background-color: #f1c40f; } /* Yellow */
+            66.6% { background-color: #9b59b6; } /* Purple */
+            83.3% { background-color: #ff9ff3; } /* Pink */
+            100% { background-color: #3498db; } /* Back to Blue */
+        }
+
+        /* ===== SLIDING IMAGE CAROUSEL ===== */
+        .slider {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .slider-container {
+            display: flex;
+            width: 400%;
+            height: 100%;
+            animation: slide 20s infinite;
+        }
+
+        .slide {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide-1 {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.85)), 
+                             url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        .slide-2 {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.85)), 
+                             url('https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        .slide-3 {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.85)), 
+                             url('https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        .slide-4 {
+            background-image: linear-gradient(rgba(44, 62, 80, 0.85), rgba(44, 62, 80, 0.85)), 
+                             url('https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+        }
+
+        @keyframes slide {
+            0% { transform: translateX(0); }
+            20% { transform: translateX(0); }
+            25% { transform: translateX(-100%); }
+            45% { transform: translateX(-100%); }
+            50% { transform: translateX(-200%); }
+            70% { transform: translateX(-200%); }
+            75% { transform: translateX(-300%); }
+            95% { transform: translateX(-300%); }
+            100% { transform: translateX(0); }
+        }
+
+        .content-wrapper {
+            background-color: rgba(255, 255, 255, 0.95);
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 50px rgba(0,0,0,0.3);
+            padding-top: 70px;
+        }
+        
+        /* ===== HEADER & NAVIGATION ===== */
+        header {
+            background-color: var(--dark);
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 0.5rem 2rem;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.2);
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 1.5rem;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            position: relative;
+        }
+        
+        nav ul li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--secondary);
+            transition: width 0.3s;
+        }
+        
+        nav ul li a:hover::after {
+            width: 100%;
+        }
+        
+        nav ul li a:hover {
+            color: var(--secondary);
+        }
+        
+        /* ===== LANGUAGE SWITCHER ===== */
+        .language-switcher {
+            display: flex;
+            align-items: center;
+        }
+        
+        .language-switcher select {
+            padding: 0.5rem;
+            border-radius: 4px;
+            border: none;
+            background-color: var(--light);
+            margin-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        .bottom-language-switcher {
+            display: none;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+        
+        /* ===== HERO SECTION ===== */
+        .hero {
+            color: white;
+            padding: 8rem 2rem;
+            text-align: center;
+            position: relative;
+            margin-bottom: 50px;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .color-changing-text {
+            animation: textColorChange 6s infinite;
+        }
+        
+        @keyframes textColorChange {
+            0% { color: #3498db; }
+            16.6% { color: #2ecc71; }
+            33.3% { color: #e74c3c; }
+            50% { color: #9b59b6; }
+            66.6% { color: #ff9ff3; }
+            83.3% { color: #f39c12; }
+            100% { color: #3498db; }
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .auth-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        
+        .btn {
+            padding: 0.8rem 1.8rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .btn-teacher {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .btn-teacher:hover {
+            background-color: #c0392b;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-parent {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-parent:hover {
+            background-color: #27ae60;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        .btn-admin {
+            background-color: var(--admin);
+            color: white;
+        }
+        
+        .btn-admin:hover {
+            background-color: #8e44ad;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px rgba(0,0,0,0.15);
+        }
+        
+        /* ===== FEATURES SECTION ===== */
+        .features {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: -50px auto 0;
+            background-color: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            position: relative;
+            z-index: 5;
+        }
+        
+        .features h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--dark);
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        
+        .feature-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid #eee;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .feature-card i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        /* ===== STATS SECTION ===== */
+        .stats {
+            padding: 4rem 2rem;
+            background-color: var(--light);
+        }
+
+        .stats h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            font-size: 2.2rem;
+            color: var(--dark);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            background-color: white;
+            border-radius: 8px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border: 1px solid #eee;
+        }
+
+        .stat-card i {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .stat-card h3 {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card p {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--secondary);
+        }
+
+        /* ===== OUR TEACHERS SECTION ===== */
+        .our-teachers {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 3rem auto;
+            background-color: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .our-teachers h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            color: var(--dark);
+        }
+
+        .teachers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .teacher-card {
+            text-align: center;
+            padding: 1.5rem;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .teacher-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        }
+
+        .teacher-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            border: 3px solid var(--light);
+        }
+
+        .teacher-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+
+        .teacher-card p {
+            font-size: 0.9rem;
+            color: #777;
+        }
+
+        /* ===== IMAGE GALLERY SECTION ===== */
+        .image-gallery {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 3rem auto;
+            background-color: white;
+            box-shadow: 0 0 30px rgba(0,0,0,0.1);
+            border-radius: 8px;
+        }
+
+        .image-gallery h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2.2rem;
+            color: var(--dark);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .gallery-item {
+            height: 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+        
+        /* ===== ABOUT/CONTACT SECTION ===== */
+        .about-contact {
+            background-color: var(--light);
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+        
+        .about-contact h2 {
+            font-size: 2.2rem;
+            margin-bottom: 2rem;
+            color: var(--dark);
+        }
+        
+        .about-contact p {
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* ===== FOOTER ===== */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--secondary);
+        }
+
+        .footer-language {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 1rem;
+            gap: 0.5rem;
+        }
+
+        .footer-language span {
+            margin-right: 0.5rem;
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                padding: 1rem;
+            }
+            
+            .logo {
+                margin-bottom: 1rem;
+            }
+            
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav ul li {
+                margin: 0.5rem 0;
+            }
+            
+            .hero {
+                padding: 5rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .auth-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+
+            .language-switcher {
+                display: none;
+            }
+
+            .bottom-language-switcher {
+                display: flex;
+            }
+
+            .features, .image-gallery {
+                margin-top: -30px;
+                padding: 2rem 1rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        /* Animation for features */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature-card {
+            animation: fadeInUp 0.6s ease forwards;
+            opacity: 0;
+        }
+
+        .feature-card:nth-child(1) { animation-delay: 0.1s; }
+        .feature-card:nth-child(2) { animation-delay: 0.2s; }
+        .feature-card:nth-child(3) { animation-delay: 0.3s; }
+        .feature-card:nth-child(4) { animation-delay: 0.4s; }
+        .feature-card:nth-child(5) { animation-delay: 0.5s; }
+        .feature-card:nth-child(6) { animation-delay: 0.6s; }
+    </style>
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Color Changing Background -->
+    <div class="color-changing-bg"></div>
+    
+    <!-- Sliding Image Background Carousel -->
+    <div class="slider">
+        <div class="slider-container">
+            <div class="slide slide-1"></div>
+            <div class="slide slide-2"></div>
+            <div class="slide slide-3"></div>
+            <div class="slide slide-4"></div>
+        </div>
+    </div>
+    
+    <div class="content-wrapper">
+        <!-- Header with Navigation - Now Sticky -->
+        <header id="mainHeader">
+            <div class="logo">School<span>Pro</span></div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="language-switcher">
+                <span><i class="fas fa-globe"></i></span>
+                <select id="top-language-select">
+                    <option value="en">English</option>
+                    <option value="sw">Swahili</option>
+                </select>
+            </div>
+        </header>
+
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <h1 class="color-changing-text">School Management System</h1>
+            <p>Comprehensive platform for administrators, teachers, and parents to streamline school operations and communication</p>
+            
+            <div class="auth-buttons">
+            <a href="#" class="btn btn-teacher teacher-main-btn"><i class="fas fa-chalkboard-teacher"></i> Teacher</a>
+             <a href="{% url 'primary_dashboard:parent_login' %}" class="btn btn-parent"><i class="fas fa-user-friends"></i> Parent Login</a>
+        </div>
+
+            <div class="bottom-language-switcher">
+                <span><i class="fas fa-globe"></i></span>
+                <select id="mobile-language-select">
+                    <option value="en">English</option>
+                    <option value="sw">Swahili</option>
+                </select>
+            </div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="features">
+            <h2>Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-user-shield"></i>
+                    <h3>Admin Dashboard</h3>
+                    <p>Full system control with user management, configuration, and broadcast messaging capabilities.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-chalkboard-teacher"></i>
+                    <h3>Teacher Portal</h3>
+                    <p>Manage classes, enter marks, generate reports, and communicate with parents for both primary and secondary levels.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Parent Portal</h3>
+                    <p>View your child's academic progress and receive important notifications from teachers.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-graduation-cap"></i>
+                    <h3>Results Management</h3>
+                    <p>Comprehensive grading system with automatic calculations for averages and divisions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-comments"></i>
+                    <h3>Messaging System</h3>
+                    <p>Secure communication between all stakeholders with priority notifications.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-language"></i>
+                    <h3>Bilingual Support</h3>
+                    <p>Full system available in both English and Swahili languages.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="stats">
+            <h2>Our Community by the Numbers</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                     <i class="fas fa-chalkboard-teacher"></i>
+                     <h3>Teachers</h3>
+                     <p>15</p>
+                 </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-friends"></i>
+                    <h3>Parents</h3>
+                    <p>250+</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-user-graduate"></i>
+                    <h3>Students</h3>
+                    <p>500+</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Meet Our Teachers Section -->
+        <section class="our-teachers">
+            <h2>Meet Our Dedicated Teachers</h2>
+            <div class="teachers-grid">
+                <div class="teacher-card">
+                    <img src="https://via.placeholder.com/80" alt="Teacher">
+                    <h4>Mr. Gisbert</h4>
+                    <p>Mathematics</p>
+                </div>
+                <div class="teacher-card">
+                    <img src="https://via.placeholder.com/80" alt="Teacher">
+                    <h4>Ms. neema</h4>
+                    <p>Science</p>
+                </div>
+                <div class="teacher-card">
+                    <img src="https://via.placeholder.com/80" alt="Teacher">
+                    <h4>Mrs. kapinga</h4>
+                    <p>English</p>
+                </div>
+                <div class="teacher-card">
+                    <img src="https://via.placeholder.com/80" alt="Teacher">
+                    <h4>Mr. Agustino Pablo</h4>
+                    <p>History</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Image Gallery Section -->
+        <section class="image-gallery" id="gallery">
+            <h2>Our School Environment</h2>
+            <div class="gallery-grid">
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1546410531-bb4caa6b424d?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Classroom">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Library">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Science Lab">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Students Learning">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="School Building">
+                </div>
+                <div class="gallery-item">
+                    <img src="https://images.unsplash.com/photo-1571260899304-425eee4c7efc?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Sports Activities">
+                </div>
+            </div>
+        </section>
+
+        <!-- About/Contact Section -->
+        <section class="about-contact" id="about">
+            <h2>About Our System</h2>
+            <p>The School Management System is designed to modernize educational administration, providing tools for efficient school management, transparent communication, and comprehensive student performance tracking.</p>
+            <p>Our platform serves all stakeholders in the educational process while maintaining strict role-based access control.</p>
+            
+            <div id="contact" style="margin-top: 3rem;">
+                <h2>Contact Us</h2>
+                <p>Have questions or need support? Reach out to our team:</p>
+                <p><i class="fas fa-envelope"></i> gisbert@schoolsystem.edu</p>
+                <p><i class="fas fa-phone"></i> +255 748905048</p>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <div class="footer-links">
+                <a href="#home">Home</a>
+                <a href="#about">About</a>
+                <a href="#gallery">Gallery</a>
+                <a href="#contact">Contact</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+
+            <div class="footer-language">
+                <span><i class="fas fa-globe"></i></span>
+                <select id="footer-language-select">
+                    <option value="en">English</option>
+                    <option value="sw">Swahili</option>
+                </select>
+            </div>
+
+            <p>&copy; 2025 School Management System. All rights reserved.</p>
+
+            <!-- Social Media Icons -->
+            <div class="social-media">
+                <a href="https://www.instagram.com/yourschool" class="social-icon instagram" target="_blank" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/yourschool" class="social-icon facebook" target="_blank" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://twitter.com/yourschool" class="social-icon twitter" target="_blank" aria-label="Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="https://www.tiktok.com/@yourschool" class="social-icon tiktok" target="_blank" aria-label="TikTok">
+                    <i class="fab fa-tiktok"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Make navbar sticky and add scroll effect
+        const header = document.getElementById('mainHeader');
+        const heroSection = document.querySelector('.hero');
+        
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // Sync all language selectors
+        const languageSelectors = [
+            document.getElementById('top-language-select'),
+            document.getElementById('mobile-language-select'),
+            document.getElementById('footer-language-select')
+        ];
+
+        // Handle language change
+        function handleLanguageChange(event) {
+            const selectedLanguage = event.target.value;
+            console.log('Language changed to:', selectedLanguage);
+            
+            // Update all selectors to match
+            languageSelectors.forEach(select => {
+                if (select !== event.target) {
+                    select.value = selectedLanguage;
+                }
+            });
+            
+            // In real implementation, submit to Django's set_language view
+            // window.location.href = `/i18n/setlang/?language=${selectedLanguage}&next=${window.location.pathname}`;
+        }
+
+        // Add event listeners
+        languageSelectors.forEach(select => {
+            if (select) {
+                select.addEventListener('change', handleLanguageChange);
+            }
+        });
+        
+        // Hide admin button (only shown if accessing from specific IP in real implementation)
+        if (window.location.search.includes('show_admin')) {
+            document.querySelector('.btn-admin').style.display = 'inline-flex';
+        }
+
+        // Animation trigger
+        document.addEventListener('DOMContentLoaded', function() {
+            const features = document.querySelectorAll('.feature-card');
+            features.forEach((card, index) => {
+                card.style.animationDelay = `${index * 0.1}s`;
+            });
+            
+            // Dynamic color changing for header/footer
+            function updateColors() {
+                const colors = [
+                    '#3498db', // Blue
+                    '#2ecc71', // Green
+                    '#e74c3c', // Red
+                    '#9b59b6', // Purple
+                    '#ff9ff3', // Pink
+                    '#f39c12'  // Orange
+                ];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                document.documentElement.style.setProperty('--primary', randomColor);
+                
+                // Schedule next color change every 1 second
+                setTimeout(updateColors, 1000);
+            }
+            
+            // Start the color changing
+            updateColors();
+        });
+     </script>
+                 <!-- Modal for teacher options -->
+                 <div id="teacher-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.4);z-index:9999;align-items:center;justify-content:center;">
+                     <div style="background:white;padding:30px 24px;border-radius:10px;max-width:350px;width:90%;box-shadow:0 2px 12px rgba(0,0,0,0.12);text-align:center;position:relative;">
+                         <button id="close-teacher-modal" style="position:absolute;top:10px;right:16px;background:none;border:none;font-size:1.5rem;color:#888;cursor:pointer;">&times;</button>
+                         <h3 style="color: var(--dark); margin-bottom: 18px;">Teacher Portal</h3>
+                         <a href="{% url 'accounts:teacher_register' %}" class="btn" style="margin-bottom:12px;width:100%; background-color: var(--primary); color: white;">Register as Teacher</a>
+                         <a href="{% url 'accounts:teacher_login' %}" class="btn btn-teacher teacher-login-btn" style="width:100%;">Teacher Login</a>
+                     </div>
+                 </div>
+                 <script>
+                 document.addEventListener('DOMContentLoaded', function() {
+                     var modal = document.getElementById('teacher-modal');
+                     var trigger = document.querySelector('.teacher-main-btn');
+                     var closeButton = document.getElementById('close-teacher-modal');
+
+                     if (trigger) {
+                         trigger.onclick = function(e) {
+                             e.preventDefault();
+                             if(modal) modal.style.display = 'flex';
+                         };
+                     }
+
+                     if (closeButton) {
+                        closeButton.onclick = function(e) {
+                             if(modal) modal.style.display = 'none';
+                        }
+                     }
+
+                     window.onclick = function(event) {
+                         if (event.target == modal) {
+                             modal.style.display = "none";
+                         }
+                     }
+                 });
+                 </script>
+</body>
+</html>
